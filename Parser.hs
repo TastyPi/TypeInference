@@ -17,8 +17,8 @@ import Syntax
 
 languageDef :: LanguageDef st
 languageDef = emptyDef {
-                commentStart = "{*",
-                commentEnd = "*}",
+                commentStart = "{",
+                commentEnd = "}",
                 identLetter = alphaNum <|> char '_',
                 opStart = oneOf "admno=+-$*/&~:@<>",
                 opLetter = oneOf "ndivotr",
@@ -53,12 +53,12 @@ parseProgram = do
                  return ps
 
 parsePara :: Parser Paragraph
-parsePara = (liftM Expression parseExpr)
-        <|> (reserved "define" >> liftM Definition parseDefn)
+parsePara = try (liftM Expression parseExpr)
+        <|> try (reserved "define" >> liftM Definition parseDefn)
 
 parseDefn :: Parser Defn
-parseDefn = parseValueDef
-        <|> parseFuncDef
+parseDefn = try parseValueDef
+        <|> try parseFuncDef
 
 parseValueDef :: Parser Defn
 parseValueDef = do
@@ -88,30 +88,30 @@ parseClause = do
                 return (f, args, e, w)
 
 parseExpr :: Parser Expr
-parseExpr = parseTerm
-        <|> (do
-               f <- parseTerm
-               args <- parens $ commaSep parseExpr
-               return (Apply f args))
-        <|> (do
-               reserved "if"
-               cond <- parseTerm
-               reserved "then"
-               e <- parseExpr
-               reserved "else"
-               e' <- parseExpr
-               return (If cond e e'))
-        <|> (do
-               reserved "let"
-               d <- parseDefn
-               reserved "in"
-               e <- parseExpr
-               return (Let d e))
-        <|> (do
-               reserved "lambda"
-               args <- parseFormals
-               e <- parseExpr
-               return (Lambda args e))
+parseExpr = try (do
+                   f <- parseTerm
+                   args <- parens $ commaSep parseExpr
+                   return (Apply f args))
+        <|> try (do
+                   reserved "if"
+                   cond <- parseTerm
+                   reserved "then"
+                   e <- parseExpr
+                   reserved "else"
+                   e' <- parseExpr
+                   return (If cond e e'))
+        <|> try (do
+                   reserved "let"
+                   d <- parseDefn
+                   reserved "in"
+                   e <- parseExpr
+                   return (Let d e))
+        <|> try (do
+                   reserved "lambda"
+                   args <- parseFormals
+                   e <- parseExpr
+                   return (Lambda args e))
+        <|> try parseTerm
 
 parseTerm :: Parser Expr
 parseTerm = try (do
@@ -155,7 +155,7 @@ parseBool = (reserved "true" >> return True)
         <|> (reserved "false" >> return False)
 
 parseNumber :: Floating f => Parser f
-parseNumber = floating2 True
+parseNumber = lexeme $ floating2 True
 
 parseString :: Parser String
 parseString = stringLiteral

@@ -8,10 +8,14 @@ import Parser
 import Syntax
 import Types
 
-typeCheck :: String -> [Paragraph]
+
+
+typeCheck :: String -> [Maybe Type]
 typeCheck s = case parse parseProgram "" s of
                 Left err -> fail (show err)
-                Right ps -> ps
+                Right ps -> fst $ flip unwrapT ([0..], []) $ forM ps $ \p -> case p of
+                                                                               Definition _ -> return Nothing
+                                                                               Expression e -> typeOfExpr e emptyEnv
 
 main :: IO ()
 main = liftM typeCheck getContents >>= print . show
