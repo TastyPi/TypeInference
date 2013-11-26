@@ -24,6 +24,15 @@ data Defn =
 
 type Clause = ([Pattern], Expr, Maybe Expr)
 
+getArgs :: Clause -> [Pattern]
+getArgs (as, _, _) = as
+
+getExpr :: Clause -> Expr
+getExpr (_, e, _) = e
+
+getWhen :: Clause -> Maybe Expr
+getWhen (_, _, w) = w
+
 type Name = String
 
 -- TODO: Pattern matching
