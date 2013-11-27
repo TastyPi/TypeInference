@@ -1,0 +1,17 @@
+module-template: ! 'module MODULE_NAME where
+
+'
+extensions: {}
+environment: null
+cabal-file: project.cabal
+modules:
+  Types:
+    filename: Types.hs
+  Main(Main.hs):
+    filename: Main.hs
+  Parser:
+    filename: Parser.hs
+  Syntax:
+    filename: Syntax.hs
+version: 1
+ghc-args: []
