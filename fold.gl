@@ -1,0 +1,10 @@
+define foldl(f, e, [])   = e
+     | foldl(f, e, x:xs) = foldl(f, f(e, x), xs)
+
+define foldr(f, e, [])   = e
+     | foldr(f, e, x:xs) = f(x, foldr(f, e, xs))
+
+define map(f, xs) = foldr(lambda(x, fxs) (f(x):fxs), [], xs)
+
+define op :(x, xs) = if true then [x] else xs
+

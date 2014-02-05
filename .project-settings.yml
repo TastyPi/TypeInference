@@ -2,16 +2,12 @@ module-template: ! 'module MODULE_NAME where
 
 '
 extensions: {}
-environment: null
+environment: ghc-7.4.2-stable-13.09
 cabal-file: project.cabal
-modules:
-  Types:
-    filename: Types.hs
-  Main(Main.hs):
-    filename: Main.hs
-  Parser:
-    filename: Parser.hs
-  Syntax:
-    filename: Syntax.hs
+hidden-packages: ''
 version: 1
-ghc-args: []
+extra-packages: ''
+ghc-args:
+- -Wall
+excluded-modules:
+- Main.hs

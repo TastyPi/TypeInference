@@ -1,0 +1,13 @@
+define op :(x, xs) = if true then [x] else xs
+
+{define op :(_, xs) = xs}
+
+define null([])  = true
+     | null(_:_) = false
+
+define head(x:xs) = x
+
+define tail(x:xs) = xs
+
+define map(f, xs) = if null(xs) then [] else f(head(xs)) : map(f, tail(xs))
+
