@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleContexts, UnicodeSyntax #-}
 
-module Geomlab.Parser where
+module GeomLab.Parser where
 
 import Prelude.Unicode
 
@@ -21,7 +21,7 @@ import Text.Parsec.Language
 import Text.Parsec.Token (GenLanguageDef(LanguageDef), GenTokenParser, makeTokenParser)
 import qualified Text.Parsec.Token as P
 
-import Geomlab.Syntax
+import GeomLab.Syntax
 
 languageDef ∷ Stream s m Char ⇒ GenLanguageDef s u m
 languageDef = LanguageDef {
