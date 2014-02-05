@@ -1,7 +1,7 @@
 -- | Main entry point to the application.
 module Main where
 
-import Geomlab.Parser
+import GeomLab.Parser
 
 import Control.Interpreter
 

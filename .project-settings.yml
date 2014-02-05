@@ -9,5 +9,4 @@ version: 1
 extra-packages: ''
 ghc-args:
 - -Wall
-excluded-modules:
-- Main.hs
+excluded-modules: []
